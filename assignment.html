@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetched data from the given URL</title>
+    <style>
+        body {
+            background-color: rgb(155, 155, 197);
+        }
+
+        .container {
+            padding: 20px;
+        }
+        .prodDiv {
+            border: 1px solid #6c4cb8;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script>
+        const DEMO_URL = "https://course-api.com/react-store-products";
+
+        const fetchAPI = async (url, callback) => {
+            try {
+                const result = await fetch(DEMO_URL);
+                const data = await result.json();
+                callback(data);
+            } catch (error) {
+                console.log("Error", error);
+            }
+        };
+
+        function handleData(data) {
+            const container = document.querySelector('.container');
+            
+            // const details = document.getElementsByClassName('.container');
+            // details.createElement('p');
+            // details.innerHTML = `<p>Here are the details of items.</p>`
+            // container.appendChild(details);
+
+            data.forEach((item) => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'prodDiv';
+                productDiv.innerHTML = `
+                    <h2>${item.name}</h2>
+                    <img src="${item.image}" alt="${item.name}" width="100">
+                    <p>Price: $${item.price}</p>
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+
+            fetchAPI(DEMO_URL, handleData);
+    </script>
+</body>
+</html>
